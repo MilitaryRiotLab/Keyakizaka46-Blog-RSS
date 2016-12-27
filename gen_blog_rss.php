@@ -1,4 +1,9 @@
 <?php
+if (php_sapi_name() != "cli") {
+	echo 'Only for cronjob';
+	exit;
+}
+
 require('inc/simple_html_dom.php'); // Using PHP Simple HTML DOM Parser from https://sourceforge.net/projects/simplehtmldom/ under MIT License 
 require('config.inc.php');
 date_default_timezone_set('UTC');
