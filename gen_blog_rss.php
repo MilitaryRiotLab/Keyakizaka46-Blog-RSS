@@ -6,7 +6,7 @@ if (php_sapi_name() != "cli") {
 
 require('inc/simple_html_dom.php'); // Using PHP Simple HTML DOM Parser from https://sourceforge.net/projects/simplehtmldom/ under MIT License 
 require('config.inc.php');
-date_default_timezone_set('UTC');
+date_default_timezone_set('Asia/Tokyo');
 
 $dom = file_get_html($HTM_INPUT);
 
@@ -32,16 +32,22 @@ for( $i = 0; $i <= 19; $i++ )
 	
 	$array[$i]['title'] = htmlspecialchars( trim( strip_tags($dom->find('h3', $i) ,''), ' ' ),  ENT_XML1, 'UTF-8');
 	$array[$i]['author'] = htmlspecialchars( trim( strip_tags($dom->find('article p.name', $i) ,'<a>'), ' ' ),  ENT_XML1, 'UTF-8');
-	$array[$i]['link'] = urlencode( $link );
+	$array[$i]['link'] = htmlspecialchars( $link, ENT_XML1, 'UTF-8');
 	
-	$array[$i]['time'] = date( 'r', strtotime( $time[$i] ) );
+	$dateTimeObject = \DateTime::createFromFormat('Y/m/d H:i', $time[$i]);
+	$time[$i] = $dateTimeObject->format('U');
+	$array[$i]['time'] = date( 'r',$time[$i] );
 	$content = strip_tags($dom->find('div.box-article',$i) ,'<img><br><br /><div><b>');
 	$content = str_replace('<div>','',$content);
 	$content = str_replace('</div>','<br>',$content);
 	$content = str_replace('<div class="box-article">','<br>',$content);
 	$content = str_replace('<div id="AppleMailSignature">','<br>',$content);
+        $content = str_replace('<br><br><br><br>','<br>',$content);
+        $content = str_replace('<br /><br />','<br>',$content);
+        $content = str_replace('<br />','<br>',$content);
+
 	
-	$content = str_replace('<img src="','<img src="http://www.keyakizaka46.com',$content);
+	$content = str_replace('src="','src="http://www.keyakizaka46.com',$content);
 	$array[$i]['content'] = htmlspecialchars( $content,  ENT_XML1, 'UTF-8');
 }
 
@@ -52,7 +58,7 @@ $pre_loop="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
   <channel>
     <atom:link href=\"{$RSS_URI}\" rel=\"self\" type=\"application/rss+xml\"/>
     <title>欅坂46 公式ブログ</title>
-    <link>http%3A%2F%2Fwww.keyakizaka46.com%2Fmob%2Fnews%2FdiarKiji.php%3Fsite%3Dk46o%26ima%3D0000%26cd%3Dmember</link>
+    <link>http://www.keyakizaka46.com/mob/news/diarKiji.php?site=k46o&amp;ima=0000&amp;cd=member/</link>
     <description>Raw feed from 欅坂46 公式ブログ,Github: https://github.com/MilitaryRiotLab/Keyakizaka46-Blog-RSS</description>
     <lastBuildDate>$date_now</lastBuildDate>
     <ttl>15</ttl>
