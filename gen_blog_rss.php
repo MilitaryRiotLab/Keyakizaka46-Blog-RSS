@@ -7,7 +7,7 @@ if (php_sapi_name() != "cli") {
 require('inc/simple_html_dom.php'); // Using PHP Simple HTML DOM Parser from https://sourceforge.net/projects/simplehtmldom/ under MIT License 
 require('config.inc.php');
 date_default_timezone_set('Asia/Tokyo');
-$root = realpath($_SERVER["DOCUMENT_ROOT"]).'/'; // From http://stackoverflow.com/a/4385
+$root = __DIR__.'/';
 
 $dom = file_get_html($HTM_INPUT);
 
