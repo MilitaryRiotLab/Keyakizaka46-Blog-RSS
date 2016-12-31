@@ -5,5 +5,5 @@ heavily depends on the source
 
 If the format of the source changes, this may not work
 
-Well, at lease it is a valid RSS feed
+Well, at least it is a valid RSS feed
 [![Valid RSS](https://validator.w3.org/feed/images/valid-rss-rogers.png)](http://validator.w3.org/feed/check.cgi?url=https%3A//onlyzero.net/Keyakizaka46_Blog_RSS)
