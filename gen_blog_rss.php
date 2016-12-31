@@ -58,9 +58,8 @@ $pre_loop="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <rss xmlns:atom=\"http://www.w3.org/2005/Atom\" version=\"2.0\">
   <channel>
     <title>欅坂46 公式ブログ</title>
-    <atom:link href=\"http://www.keyakizaka46.com/mob/news/diarKiji.php?site=k46o&amp;ima=0000&amp;cd=member/\" rel=\"self\" type=\"application/rss+xml\"/>
-    <link>http://www.keyakizaka46.com/mob/news/diarKiji.php?site=k46o&amp;ima=0000&amp;cd=member/</link>
-    <description>Raw feed from 欅坂46 公式ブログ,Github: https://github.com/MilitaryRiotLab/Keyakizaka46-Blog-RSS</description>
+    <link>http://www.keyakizaka46.com/mob/news/diarKiji.php?site=k46o&amp;ima=0000&amp;cd=member</link>
+    <description>Raw feed from 欅坂46 公式ブログ, http://www.keyakizaka46.com/mob/news/diarKiji.php?site=k46o&amp;ima=0000&amp;cd=member , Github: https://github.com/MilitaryRiotLab/Keyakizaka46-Blog-RSS</description>
     <lastBuildDate>$date_now</lastBuildDate>
 ";
 
