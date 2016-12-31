@@ -7,6 +7,7 @@ if (php_sapi_name() != "cli") {
 require('inc/simple_html_dom.php'); // Using PHP Simple HTML DOM Parser from https://sourceforge.net/projects/simplehtmldom/ under MIT License 
 require('config.inc.php');
 date_default_timezone_set('Asia/Tokyo');
+$root = realpath($_SERVER["DOCUMENT_ROOT"]).'/'; // From http://stackoverflow.com/a/4385
 
 $dom = file_get_html($HTM_INPUT);
 
@@ -32,7 +33,7 @@ for( $i = 0; $i <= 19; $i++ )
 	
 	$array[$i]['title'] = htmlspecialchars( trim( strip_tags($dom->find('h3', $i) ,''), ' ' ),  ENT_XML1, 'UTF-8');
 	$array[$i]['author'] = htmlspecialchars( trim( strip_tags($dom->find('article p.name', $i) ,'<a>'), ' ' ),  ENT_XML1, 'UTF-8');
-	$array[$i]['link'] = htmlspecialchars( $link, ENT_XML1, 'UTF-8');
+	$array[$i]['link'] = htmlspecialchars( $link, ENT_XML1, 'UTF-8').'/';
 	
 	$dateTimeObject = \DateTime::createFromFormat('Y/m/d H:i', $time[$i]);
 	$time[$i] = $dateTimeObject->format('U');
@@ -56,12 +57,11 @@ $date_now = date(DATE_RSS);
 $pre_loop="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <rss xmlns:atom=\"http://www.w3.org/2005/Atom\" version=\"2.0\">
   <channel>
-    <atom:link href=\"{$RSS_URI}\" rel=\"self\" type=\"application/rss+xml\"/>
     <title>欅坂46 公式ブログ</title>
+    <atom:link href=\"http://www.keyakizaka46.com/mob/news/diarKiji.php?site=k46o&amp;ima=0000&amp;cd=member/\" rel=\"self\" type=\"application/rss+xml\"/>
     <link>http://www.keyakizaka46.com/mob/news/diarKiji.php?site=k46o&amp;ima=0000&amp;cd=member/</link>
     <description>Raw feed from 欅坂46 公式ブログ,Github: https://github.com/MilitaryRiotLab/Keyakizaka46-Blog-RSS</description>
     <lastBuildDate>$date_now</lastBuildDate>
-    <ttl>15</ttl>
 ";
 
 for( $i = 0; $i <= 19; $i++ )
@@ -84,12 +84,11 @@ EOF;
 
 $output = $pre_loop.$loop.$post_loop;
 
-
-$xmlfile = fopen($XML_OUTPUT, "w") or die("Unable to open file!");
+$xmlfile = fopen($root.$XML_OUTPUT, "w") or die("Unable to open file!");
 fwrite($xmlfile, $output);
 fclose($xmlfile);
 $output_gzip = gzencode($output,9);
-$xmlfile_gzip = fopen($XML_OUTPUT.'.gz', "w") or die("Unable to open gzip file!");
+$xmlfile_gzip = fopen($root.$XML_OUTPUT.'.gz', "w") or die("Unable to open gzip file!");
 fwrite($xmlfile_gzip, $output_gzip);
 fclose($xmlfile_gzip);
 echo 'Jobs done';
